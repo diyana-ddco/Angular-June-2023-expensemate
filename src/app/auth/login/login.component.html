@@ -1,0 +1,19 @@
+
+<h1>Login Form</h1>
+<form #form="ngForm" (ngSubmit)="login(form)">
+    <p>
+        <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input ngModel name="email" matInput placeholder="Email">
+        <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input ngModel name="password" matInput placeholder="Password">
+        <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+    </p>
+    <button mat-raised-button color="primary">Login</button>
+  </form>
