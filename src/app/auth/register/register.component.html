@@ -1,1 +1,37 @@
-<p>register works!</p>
+
+<h1>Login Form</h1>
+<div *ngIf="!isConfirm">
+    <form [formGroup]="registerForm" (ngSubmit)="signUp()">
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input formControlName="username" matInput placeholder="Username">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input formControlName="email" matInput placeholder="Email">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input formControlName="password" matInput placeholder="Password">
+            </mat-form-field>
+        </p>
+        <button mat-raised-button color="primary" [disabled]="loading">Login</button>
+    </form>
+  </div>
+
+  <div *ngIf="isConfirm">
+    <form [formGroup]="registerForm" (ngSubmit)="confirmSignUp()">
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Code</mat-label>
+                <input formControlName="code" matInput placeholder="Code">
+            </mat-form-field>
+        </p>
+        <button mat-raised-button color="primary" [disabled]="loading">Confirm</button>
+    </form>
+  </div>

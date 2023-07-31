@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 
 import { environment } from '../../environments/environment';
+import { ConfirmSignUpParameters } from './model/ConfirmSignUpParameters.model';
+import { SignUpParameters } from './model/SignUpParameters.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +22,18 @@ export class CognitoService {
     this.authenticationSubject$ = new BehaviorSubject<boolean>(false);
   }
 
-  public signUp(email: string, password: string): Promise<any> {
+  public signUp({ username, password, email }: SignUpParameters): Promise<any> {
     return Auth.signUp({
-      username: email,
+      username: username,
       password: password,
+      attributes: {
+        email
+      },
     });
   }
 
-  public confirmSignUp(email: string, code: string): Promise<any> {
-    return Auth.confirmSignUp(email, code);
+  public confirmSignUp({ username, code }: ConfirmSignUpParameters): Promise<any> {
+    return Auth.confirmSignUp(username, code);
   }
 
   public signIn(email: string, password: string): Promise<any> {
