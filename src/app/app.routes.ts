@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
-import { AuthLayoutComponent } from "./core/auth-layout/auth-layout.component";
+import { AuthLayoutComponent } from "./core/components/auth-layout/auth-layout.component";
 import { AUTH_ROUTES } from "./auth/auth.routes";
-import { Page404Component } from "./core/page404/page404.component";
-import { MainLayoutComponent } from "./core/main-layout/main-layout.component";
+import { Page404Component } from "./core/components/page404/page404.component";
+import { MainLayoutComponent } from "./core/components/main-layout/main-layout.component";
 import { EXPENSES_ROUTES } from "./features/expenses/expenses.routes";
 
 export enum ROUTER_TOKENS {
