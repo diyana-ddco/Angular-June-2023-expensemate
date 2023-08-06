@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { APP_ROUTES } from './app.routes';
 import { CoreModule } from './core/core.module';
+import { TmplAstRecursiveVisitor } from '@angular/compiler';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,9 @@ import { CoreModule } from './core/core.module';
     AuthModule,
     UserModule,
 
-    RouterModule.forRoot(APP_ROUTES),
+    RouterModule.forRoot(APP_ROUTES, {
+      enableTracing: true
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
