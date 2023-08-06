@@ -22,7 +22,7 @@ export class CognitoService {
     this.authenticationSubject$ = new BehaviorSubject<boolean>(false);
   }
 
-  public signUp({ username, password, email }: SignUpParameters): Promise<any> {
+  public register({ username, password, email }: SignUpParameters): Promise<any> {
     return Auth.signUp({
       username: username,
       password: password,
@@ -32,18 +32,18 @@ export class CognitoService {
     });
   }
 
-  public confirmSignUp({ username, code }: ConfirmSignUpParameters): Promise<any> {
+  public confirmRegistration({ username, code }: ConfirmSignUpParameters): Promise<any> {
     return Auth.confirmSignUp(username, code);
   }
 
-  public signIn(email: string, password: string): Promise<any> {
+  public login(email: string, password: string): Promise<any> {
     return Auth.signIn(email, password)
       .then(() => {
         this.authenticationSubject$.next(true);
       });
   }
 
-  public signOut(): Promise<any> {
+  public logout(): Promise<any> {
     return Auth.signOut()
       .then(() => {
         this.authenticationSubject$.next(false);

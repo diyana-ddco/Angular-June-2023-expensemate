@@ -1,37 +1,79 @@
+  <div class="auth-container">
+    <div class="row auth-main">
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <div class="left-img" style="background-image: url(assets/images/pages/bg-02.png);">
+        </div>
+      </div>
+      <div class="col-sm-6 auth-form-section">
+        <div class="form-section">
+          <div class="auth-wrapper">
+            <h2 class="welcome-msg"> Register </h2>
+            <p class="auth-signup-text text-muted">Enter details to create your account</p>
+            
+            <form *ngIf="!isConfirm" class="validate-form" [formGroup]="registerForm" (ngSubmit)="register()">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username" required>
+                    <mat-error *ngIf="registerForm.get('username')?.hasError('required')">Username is required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" required />
+                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>mail</mat-icon>
+                    <mat-error *ngIf="registerForm.get('email')?.hasError('required') || registerForm.get('email')?.touched">Please enter a valid email address</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required>
+                    <a href="#" onClick="return false;" matSuffix (click)="hidePassword = !hidePassword"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                      <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
+                        {{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                    <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+                      Password is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="flex-sb-m w-full  p-b-20">
+                <div>
+                  <span>Already Registered? <a routerLink="/authentication/login">
+                      Login
+                    </a></span>
+                </div>
+              </div>
+              <div class="container-auth-form-btn">
+                <button mat-raised-button color="primary" class="auth-form-btn" [disabled]="!registerForm.valid "
+                  type="submit">
+                  Register
+                </button>
+              </div>
+            </form>
 
-<h1>Login Form</h1>
-<div *ngIf="!isConfirm">
-    <form [formGroup]="registerForm" (ngSubmit)="signUp()">
-        <p>
-            <mat-form-field appearance="fill">
-                <mat-label>Username</mat-label>
-                <input formControlName="username" matInput placeholder="Username">
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field appearance="fill">
-                <mat-label>Email</mat-label>
-                <input formControlName="email" matInput placeholder="Email">
-            </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input formControlName="password" matInput placeholder="Password">
-            </mat-form-field>
-        </p>
-        <button mat-raised-button color="primary" [disabled]="loading">Login</button>
-    </form>
+            <form *ngIf="isConfirm" [formGroup]="registerForm" (ngSubmit)="confirmRegistration()">
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Code</mat-label>
+                        <input formControlName="code" matInput placeholder="Code">
+                    </mat-form-field>
+                </p>
+                <button mat-raised-button color="primary" [disabled]="loading">Confirm</button>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div *ngIf="isConfirm">
-    <form [formGroup]="registerForm" (ngSubmit)="confirmSignUp()">
-        <p>
-            <mat-form-field appearance="fill">
-                <mat-label>Code</mat-label>
-                <input formControlName="code" matInput placeholder="Code">
-            </mat-form-field>
-        </p>
-        <button mat-raised-button color="primary" [disabled]="loading">Confirm</button>
-    </form>
-  </div>
+  

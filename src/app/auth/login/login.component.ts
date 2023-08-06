@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
 
 import { AuthenticationService } from '../authentication.service';
 
@@ -11,10 +11,23 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class LoginComponent {
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  loading: boolean = false;
+  hidePassword: boolean = true;
+  loginError: string | null = null;
 
-  login(form: NgForm): void {
-    console.log(form.value);
+  loginForm: FormGroup;
+
+  constructor(private authenticationService: AuthenticationService, private router: Router, private fb: FormBuilder) { 
+    
+    this.loginForm = fb.nonNullable.group({
+      username: '',
+      email: '',
+      password: ''
+    });
+  }
+
+  login(): void {
+    console.log(this.loginForm.value);
     //this.authenticationService.login(email, password);
     //this.router.navigate(['/']);
   }

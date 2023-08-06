@@ -13,6 +13,7 @@ import { CognitoService } from '../cognito.service';
 export class RegisterComponent {
 
   loading: boolean;
+  hidePassword: boolean = true;
   isConfirm: boolean;
 
   registerForm: FormGroup;
@@ -29,9 +30,9 @@ export class RegisterComponent {
     });
   }
 
-  public signUp(): void {
+  public register(): void {
     this.loading = true;
-    this.cognitoService.signUp(this.registerForm.value)
+    this.cognitoService.register(this.registerForm.value)
       .then(() => {
         this.loading = false;
         this.isConfirm = true;
@@ -40,11 +41,11 @@ export class RegisterComponent {
       });
   }
 
-  public confirmSignUp(): void {
+  public confirmRegistration(): void {
     this.loading = true;
-    this.cognitoService.confirmSignUp(this.registerForm.value)
+    this.cognitoService.confirmRegistration(this.registerForm.value)
       .then(() => {
-        this.router.navigate(['/signIn']);
+        this.router.navigate(['/login']);
       }).catch(() => {
         this.loading = false;
       });
