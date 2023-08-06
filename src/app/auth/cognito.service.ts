@@ -59,9 +59,8 @@ export class CognitoService {
       .then((user: any) => {
         if (user) {
           return true;
-        } else {
-          return false;
         }
+        return false;
       }).catch(() => {
         return false;
       });
