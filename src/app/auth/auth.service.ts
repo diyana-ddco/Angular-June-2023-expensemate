@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from, map, switchMap } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 
 import { environment } from '../../environments/environment';
 import { ConfirmSignUpParameters } from './model/ConfirmSignUpParameters.model';
 import { SignUpParameters } from './model/SignUpParameters.model';
+import { User } from '../user/models/user.model';
+import { LoginParameters } from './model/LoginParameters.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CognitoService {
+export class AuthService {
 
-  private authenticationSubject$: BehaviorSubject<any>;
+  private authenticationSubject$: BehaviorSubject<boolean>;
 
   constructor() {
-
     Amplify.configure({
       Auth: environment.cognito,
     });
-
     this.authenticationSubject$ = new BehaviorSubject<boolean>(false);
   }
 
@@ -36,8 +36,8 @@ export class CognitoService {
     return Auth.confirmSignUp(username, code);
   }
 
-  public login(email: string, password: string): Promise<any> {
-    return Auth.signIn(email, password)
+  public login({username, password}: LoginParameters): Promise<any> {
+    return Auth.signIn(username, password)
       .then(() => {
         this.authenticationSubject$.next(true);
       });

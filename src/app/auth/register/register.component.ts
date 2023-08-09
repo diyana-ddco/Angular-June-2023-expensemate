@@ -1,54 +1,104 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
-import { CognitoService } from '../cognito.service';
+import { AuthService } from '../auth.service';
+import { CustomValidators } from 'src/app/core/validators/custom.validators';
 
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent {
+  
+  private authService = inject(AuthService);
+  private router = inject(Router); 
+  private fb = inject(FormBuilder);
 
-  loading: boolean;
+  private errorPriorities = [
+    'required',
+    'minlength',
+    'atLeastOneNumber',
+    'atLeastOneSpecialCharacter',
+    'atLeastOneLowercaseLetter',
+    'atLeastOneUppercaseLetter'
+  ];
+
+  private passwordErrorMessages = {
+    'required': 'Password is required',
+    'minlength': 'Password must be at least 8 characters long.',
+    'atLeastOneNumber': 'Password must contain at least one number.',
+    'atLeastOneSpecialCharacter': 'Password must contain at least one special character.',
+    'atLeastOneLowercaseLetter': 'Password must contain at least one lowercase letter.',
+    'atLeastOneUppercaseLetter': 'Password must contain at least one uppercase letter.'
+  };
+
+  isCodeConfirm: boolean = false;
+  loadingCodeConfirm: boolean = false;
+  
   hidePassword: boolean = true;
-  isConfirm: boolean;
+  hideConfirmPassword: boolean = true;
+  
+  registerForm: FormGroup = this.fb.nonNullable.group({
+    username: '',
+    email: ['', [
+      Validators.required,
+      Validators.email
+    ]],
+    password: ['', [
+      Validators.required,
+      Validators.minLength(8),
+      CustomValidators.atLeastOneLowercaseLetter,
+      CustomValidators.atLeastOneNumber,
+      CustomValidators.atLeastOneSpecialCharacter,
+      CustomValidators.atLeastOneLowercaseLetter, 
+      CustomValidators.atLeastOneUppercaseLetter 
+    ]],
+    confirmPassword: ['', [
+      Validators.required,
+      this.matchPasswords.bind(this)
+    ]],
+    code: ''
+  });
 
-  registerForm: FormGroup;
-
-  constructor(private cognitoService: CognitoService, private router: Router, fb: FormBuilder) {
-    this.loading = false;
-    this.isConfirm = false;
-
-    this.registerForm = fb.nonNullable.group({
-      username: '',
-      email: '',
-      password: '',
-      code: ''
-    });
+  private matchPasswords(control: AbstractControl): ValidationErrors | null {
+    const password = this.registerForm?.get('password')?.value;
+    const confirmPassword = control.value;
+    
+    if (password !== confirmPassword) {
+      return { passwordsNotMatch: true };
+    }
+    return null;
   }
 
   public register(): void {
-    this.loading = true;
-    this.cognitoService.register(this.registerForm.value)
+    this.loadingCodeConfirm = true;
+    this.authService.register(this.registerForm.value)
       .then(() => {
-        this.loading = false;
-        this.isConfirm = true;
-      }).catch(() => {
-        this.loading = false;
+        this.loadingCodeConfirm = false;
+        this.isCodeConfirm = true;
+      }).catch((error) => {
+        console.log(error);
+        this.loadingCodeConfirm = false;
       });
   }
 
   public confirmRegistration(): void {
-    this.loading = true;
-    this.cognitoService.confirmRegistration(this.registerForm.value)
+    this.loadingCodeConfirm = true;
+    this.authService.confirmRegistration(this.registerForm.value)
       .then(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/authentication/login']);
       }).catch(() => {
-        this.loading = false;
+        this.loadingCodeConfirm = false;
       });
   }
 
+  public getHighestPriorityError(control: AbstractControl | null): string | undefined {
+    return this.errorPriorities.find(error => control?.hasError(error));
+  }
+
+  public getPasswordErrorMessage(errorKey?: string): string {
+    return this.passwordErrorMessages[errorKey as keyof typeof this.passwordErrorMessages] || 'Invalid password.';
+  }
 }

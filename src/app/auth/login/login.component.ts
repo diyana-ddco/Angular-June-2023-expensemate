@@ -1,35 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
 
-import { AuthenticationService } from '../authentication.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
+
+  private authService = inject(AuthService);
+  private router = inject(Router); 
+  private fb = inject(FormBuilder);
 
   loading: boolean = false;
   hidePassword: boolean = true;
   loginError: string | null = null;
 
-  loginForm: FormGroup;
+  loginForm: FormGroup = this.fb.nonNullable.group({
+    username: '',
+    password: ''
+  });;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router, private fb: FormBuilder) { 
-    
-    this.loginForm = fb.nonNullable.group({
-      username: '',
-      email: '',
-      password: ''
-    });
-  }
 
   login(): void {
-    console.log(this.loginForm.value);
-    //this.authenticationService.login(email, password);
-    //this.router.navigate(['/']);
+    this.authService.login(this.loginForm.value).then(() => {
+      this.router.navigate(['/expenses']);
+    }).catch((error) => {
+      console.log(error);
+      this.loginError = error.message;
+    });;
+    
   }
 
 }
