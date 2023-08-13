@@ -21,25 +21,23 @@ export class AuthService {
     this.authenticationSubject$ = new BehaviorSubject<boolean>(false);
   }
 
-  public register({ username, password, email }: SignUpParameters): Observable<string> {
+  public register({ username, password, email }: SignUpParameters): Observable<any> {
     return from(Auth.signUp({
       username: username,
       password: password,
       attributes: {
         email
       },
-    })).pipe(tap(console.log));
+    }));
   }
 
   public confirmRegistration({ username, code }: ConfirmSignUpParameters): Promise<any> {
     return Auth.confirmSignUp(username, code);
   }
 
-  public login({username, password}: LoginParameters): Promise<any> {
-    return Auth.signIn(username, password)
-      .then(() => {
-        this.authenticationSubject$.next(true);
-      });
+  public login({username, password}: LoginParameters): Observable<any> {
+    return from(Auth.signIn(username, password))
+      .pipe(tap(() => this.authenticationSubject$.next(true)));
   }
 
   public logout(): Promise<any> {

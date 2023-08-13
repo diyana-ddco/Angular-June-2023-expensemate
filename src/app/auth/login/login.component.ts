@@ -25,13 +25,19 @@ export class LoginComponent {
 
 
   login(): void {
-    this.authService.login(this.loginForm.value).then(() => {
-      this.router.navigate(['/expenses']);
-    }).catch((error) => {
-      console.log(error);
-      this.loginError = error.message;
-    });;
-    
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (result) => {
+        console.log(result);
+        this.router.navigate(['/expenses']);
+      },
+      error: (err) => {
+        console.log(err);
+        this.loginError = err.message;
+      }
+       
+    });
+
+
   }
 
 }
