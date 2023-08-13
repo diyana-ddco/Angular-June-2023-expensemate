@@ -5,6 +5,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { MaterialModule } from './material.module';
 import { IconsModule } from './icons.module';
 import { SloganSectionComponent } from './slogan-section/slogan-section.component';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SloganSectionComponent } from './slogan-section/slogan-section.componen
     RouterModule,
     RouterLink,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgScrollbarModule
   ],
   exports: [
     SloganSectionComponent,
@@ -26,6 +28,7 @@ import { SloganSectionComponent } from './slogan-section/slogan-section.componen
     ReactiveFormsModule,
     IconsModule,
     MaterialModule,
+    NgScrollbarModule
   ]
 })
 export class SharedModule { }

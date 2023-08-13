@@ -36,6 +36,7 @@ export class RegisterComponent {
 
   isCodeConfirm: boolean = false;
   loadingCodeConfirm: boolean = false;
+  registerError: string | null = null;
   
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
@@ -74,14 +75,16 @@ export class RegisterComponent {
 
   public register(): void {
     this.loadingCodeConfirm = true;
-    this.authService.register(this.registerForm.value)
-      .then(() => {
+    this.authService.register(this.registerForm.value).subscribe({
+      next: (result) => {
         this.loadingCodeConfirm = false;
         this.isCodeConfirm = true;
-      }).catch((error) => {
-        console.log(error);
+      },
+      error: (err) => {
+        this.registerError = err.message;
         this.loadingCodeConfirm = false;
-      });
+      }
+    });
   }
 
   public confirmRegistration(): void {

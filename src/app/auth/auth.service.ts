@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, from, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, from, map, switchMap, tap } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 
 import { environment } from '../../environments/environment';
 import { ConfirmSignUpParameters } from './model/ConfirmSignUpParameters.model';
 import { SignUpParameters } from './model/SignUpParameters.model';
-import { User } from '../user/models/user.model';
 import { LoginParameters } from './model/LoginParameters.model';
 
 @Injectable({
@@ -22,14 +21,14 @@ export class AuthService {
     this.authenticationSubject$ = new BehaviorSubject<boolean>(false);
   }
 
-  public register({ username, password, email }: SignUpParameters): Promise<any> {
-    return Auth.signUp({
+  public register({ username, password, email }: SignUpParameters): Observable<string> {
+    return from(Auth.signUp({
       username: username,
       password: password,
       attributes: {
         email
       },
-    });
+    })).pipe(tap(console.log));
   }
 
   public confirmRegistration({ username, code }: ConfirmSignUpParameters): Promise<any> {
@@ -79,3 +78,7 @@ export class AuthService {
 
 
 }
+// function ISignupResult(value: ISignUpResult, index: number): boolean {
+//   throw new Error('Function not implemented.');
+// }
+

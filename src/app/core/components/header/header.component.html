@@ -1,5 +1,16 @@
 <nav #navbar class="navbar active">
     <div class="container-fluid">
+
+      <div class="collapse navbar-collapse">
+        <ul class="float-start collapse-menu-icon">
+          <li>
+            <button mat-icon-button (click)="mobileMenuSidebarOpen($event,'overlay-open')" class="sidemenu-collapse">
+              <i-feather name="menu" [class]="'header-icon'"></i-feather>
+            </button>
+          </li>
+        </ul>
+      </div>
+
       <div class="collapse navbar-collapse show">
         <ul class="nav navbar-nav navbar-right">
           <!-- #START# User -->
