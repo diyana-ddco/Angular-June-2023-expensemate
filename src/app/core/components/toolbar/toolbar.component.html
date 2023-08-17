@@ -1,0 +1,27 @@
+<mat-toolbar color="primary">
+
+    <button mat-button class="sidenav-toggle" (click)="toggleSidenav.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <span></span>
+  
+    <span class="example-spacer"></span>
+  
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <i-feather name="user" [class]="'user-menu-icons'"></i-feather>Account
+      </button>
+      <button mat-menu-item>
+        <i-feather name="settings" [class]="'user-menu-icons'"></i-feather>Settings
+      </button>
+      <button mat-menu-item (click)="toggleTheme.emit()">Toggle theme</button>
+      <button mat-menu-item routerLink="/logout">
+        <i-feather name="log-out" [class]="'user-menu-icons'"></i-feather>Logout
+      </button>
+    </mat-menu>
+  
+  </mat-toolbar>

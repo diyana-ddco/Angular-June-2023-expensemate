@@ -1,0 +1,32 @@
+<mat-sidenav-container class="app-sidenav-container" [class.dark-theme]="isDarkTheme">
+    <mat-sidenav #sidenav class="app-sidenav mat-elevation-z5" [opened]="!isScreenSmall" [mode]="isScreenSmall ? 'over' : 'side'">
+        <mat-toolbar color="primary">
+            Expensmate
+          </mat-toolbar>
+          <mat-nav-list>
+              <mat-list-item>
+                  <a matLine [routerLink]="['/dashboard']">
+                      <mat-icon>dashboard</mat-icon> Dashboard
+                  </a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a matLine [routerLink]="['/expenses']">
+                      <mat-icon>receipt</mat-icon> Expenses
+                  </a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a matLine [routerLink]="['/reports']">
+                      <mat-icon>import_export</mat-icon> Reports
+                  </a>
+              </mat-list-item>
+           </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content class="app-sidenav-content">
+        <app-toolbar (toggleTheme)="toggleTheme()" (toggleSidenav)="sidenav.toggle()">
+        </app-toolbar>
+        <div class="wrapper">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
