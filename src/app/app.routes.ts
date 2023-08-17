@@ -5,16 +5,22 @@ import { Page404Component } from "./core/components/page404/page404.component";
 import { MainLayoutComponent } from "./core/components/main-layout/main-layout.component";
 import { EXPENSES_ROUTES } from "./features/expenses/expenses.routes";
 import { authRoutGuard } from "./core/guards/auth.guard";
+import { USER_ROUTES, USER_ROUTES_TOKENS } from "./user/user.routes";
 
 export enum ROUTER_TOKENS {
-    DASHBOARD = 'dashboard',
-    EXPENSES = 'expenses',
     ABOUT = 'about',
     NOT_AUTH = '',
+
     AUTH = 'authentication',
-    LOGIN = `authentication/${AUTH_ROUTES_TOKENS.LOGIN}`,
-    LOGOUT = `authentication/${AUTH_ROUTES_TOKENS.LOGOUT}`,
-    REGISTER = `authentication/${AUTH_ROUTES_TOKENS.REGISTER}`,
+    AUTH_LOGIN = `${AUTH}/${AUTH_ROUTES_TOKENS.LOGIN}`,
+    AUTH_LOGOUT = `${AUTH}/${AUTH_ROUTES_TOKENS.LOGOUT}`,
+    AUTH_REGISTER = `${AUTH}/${AUTH_ROUTES_TOKENS.REGISTER}`,
+
+    USER = 'user',
+    USER_PROFILE = `${AUTH}/${USER_ROUTES_TOKENS.PROFILE}`,
+
+    EXPENSES = 'expenses',
+    DASHBOARD = 'dashboard',
 }
 
 export const APP_ROUTES: Routes = [
@@ -22,6 +28,12 @@ export const APP_ROUTES: Routes = [
         path: ROUTER_TOKENS.AUTH,
         component: AuthLayoutComponent,
         children: AUTH_ROUTES
+    },
+    {
+        path: ROUTER_TOKENS.USER,
+        component: MainLayoutComponent,
+        children: USER_ROUTES,
+        canActivate: [authRoutGuard]
     },
     {
         path: ROUTER_TOKENS.EXPENSES,
