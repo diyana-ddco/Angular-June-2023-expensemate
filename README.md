@@ -1,19 +1,24 @@
 # Expensemate Documentation
 
-## Introduction:
+## Disclaimer
+
+**Please note that Expensemate is a project assignment for the SoftUnit course "Angular - юни 2023." It is intended for educational purposes and as a demonstration of skills acquired during the course..**
+
+
+## Introduction
 Expensemate is an application designed to help freelancers easily track their expenses and generate reports for their accountants. The application provides a user-friendly interface for registering expenses and managing financial data.
 
-## System Architecture:
+## System Architecture
 Expensemate is built upon a client-server architecture:
 
-### Frontend: 
+### Frontend
 The frontend is developed using Angular, a popular web framework. It provides the user interface for interacting with the application's features.
-### Backend: 
+### Backend
 The backend is built using Spring Boot, which exposes REST APIs to handle user requests and manage the application's data.
-### Authentication: 
+### Authentication
 User authentication is handled using AWS Cognito, providing a secure and scalable authentication solution.
 
-## Technologies Used:
+## Technologies Used
 Angular
 Spring Boot
 Amazon Cognito
