@@ -6,6 +6,7 @@ import { MaterialModule } from './material.module';
 import { IconsModule } from './icons.module';
 import { SloganSectionComponent } from './slogan-section/slogan-section.component';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     RouterLink,
     FormsModule, 
     ReactiveFormsModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    FlexLayoutModule
   ],
   exports: [
     SloganSectionComponent,
@@ -28,7 +30,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     ReactiveFormsModule,
     IconsModule,
     MaterialModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    FlexLayoutModule
   ]
 })
 export class SharedModule { }
