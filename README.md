@@ -12,7 +12,7 @@ Expensemate is an application designed to help freelancers easily track their ex
 Expensemate is built upon a client-server architecture:
 
 ### Frontend
-The frontend is developed using Angular, a popular web framework. It provides the user interface for interacting with the application's features.
+The frontend is developed using Angular. It provides the user interface for interacting with the application's features.
 ### Backend
 The backend is built using Spring Boot, which exposes REST APIs to handle user requests and manage the application's data.
 ### Authentication
