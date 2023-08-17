@@ -1,9 +1,27 @@
 import { Routes } from "@angular/router";
 import { ExpensesListComponent } from "./expenses-list/expenses-list.component";
+import { MainLayoutComponent } from "src/app/core/components/main-layout/main-layout.component";
+
+export enum EXPENSES_ROUTER_TOKENS {
+    BASE = 'expenses',
+    LIST = '',
+    DETAIL = 'detail',
+} 
 
 export const EXPENSES_ROUTES: Routes = [
     {
-        path: '',
-        component: ExpensesListComponent
+        path: EXPENSES_ROUTER_TOKENS.BASE,
+        component: MainLayoutComponent,
+        children: [
+            {
+                path: EXPENSES_ROUTER_TOKENS.LIST,
+                component: ExpensesListComponent
+            },
+            {
+                path: '',
+                redirectTo: EXPENSES_ROUTER_TOKENS.LIST,
+                pathMatch: 'full'
+            }
+        ]
     }
 ]

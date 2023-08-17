@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { APP_ROUTES } from './app.routes';
 import { CoreModule } from './core/core.module';
+import { ExpensesModule } from './features/expenses/expenses.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CoreModule } from './core/core.module';
     CoreModule,
     AuthModule,
     UserModule,
+    ExpensesModule,
 
     RouterModule.forRoot(APP_ROUTES),
   ],
