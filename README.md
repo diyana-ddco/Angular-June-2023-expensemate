@@ -6,7 +6,7 @@
 
 
 ## Introduction
-Expensemate is an application designed to help freelancers easily track their expenses and generate reports for their accountants. The application provides a user-friendly interface for registering expenses and managing financial data.
+Expensemate is an application designed to help freelancers easily track their expenses and generate reports for their accountants. The application provides a user-friendly interface for registering expenses and generating reports.
 
 ## System Architecture
 Expensemate is built upon a client-server architecture:
