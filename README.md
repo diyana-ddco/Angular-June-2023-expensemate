@@ -19,10 +19,10 @@ The backend is built using Spring Boot, which exposes REST APIs to handle user r
 User authentication is handled using AWS Cognito, providing a secure and scalable authentication solution.
 
 ## Technologies Used
-Angular
-Spring Boot
-Amazon Cognito
-Amazon RDS for PostgreSQL
+- Angular
+- Spring Boot
+- Amazon Cognito
+- Amazon RDS for PostgreSQL
 
 
 # User Guide
