@@ -2,7 +2,7 @@
 
 ## Disclaimer
 
-**Please note that Expensemate is a project assignment for the SoftUnit course "Angular - юни 2023." It is intended for educational purposes and as a demonstration of skills acquired during the course..**
+**Please note that Expensemate is a project assignment for the SoftUnit course "Angular - юни 2023." It is intended for educational purposes and as a demonstration of skills acquired during the course.**
 
 
 ## Introduction
