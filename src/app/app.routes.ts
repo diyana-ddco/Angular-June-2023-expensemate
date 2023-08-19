@@ -23,7 +23,7 @@ export const APP_ROUTES: Routes = [
     {
         path: EXPENSES_ROUTER_TOKENS.BASE,
         loadChildren: () => import('./features/expenses/expenses.module').then(m => m.ExpensesModule),
-        canActivate: [authRoutGuard]
+        canActivate: [authRoutGuard],
     },
     {
         path: '',

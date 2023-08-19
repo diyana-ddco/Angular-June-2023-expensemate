@@ -1,0 +1,23 @@
+<div *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!loading">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ expense?.expenseDate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-tab-group>
+                <mat-tab label="Expense">
+                    <p>
+                        TODO
+                    </p>
+                </mat-tab>
+                <mat-tab label="Attachemnt">
+                    TODO
+                    <!-- <app-expense-attachemnt [attachemnt]="expense.attachemnt"></app-expense-attachemnt> -->
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+</div>

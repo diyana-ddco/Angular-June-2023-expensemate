@@ -89,12 +89,13 @@ export class RegisterComponent {
 
   public confirmRegistration(): void {
     this.loadingCodeConfirm = true;
-    this.authService.confirmRegistration(this.registerForm.value)
-      .then(() => {
-        this.router.navigate(['/authentication/login']);
-      }).catch(() => {
+    this.authService.confirmRegistration(this.registerForm.value).subscribe({
+      next: () => this.router.navigate(['/authentication/login']),
+      error: (err) => {
         this.loadingCodeConfirm = false;
-      });
+        this.registerError = err.message;
+      }
+    });
   }
 
   public getHighestPriorityError(control: AbstractControl | null): string | undefined {

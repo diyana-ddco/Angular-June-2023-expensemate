@@ -2,7 +2,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4200',
+  apiUrl: 'http://localhost:8080/api',
 
   cognito: {
     userPoolId: 'eu-central-1_ce5XkcA2R',

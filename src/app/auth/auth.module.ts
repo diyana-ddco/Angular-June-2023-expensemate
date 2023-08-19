@@ -8,18 +8,20 @@ import { LogoutComponent } from './logout/logout.component';
 import { SharedModule } from '../shared/shared.module';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AUTH_ROUTES } from './auth.routes';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
-    RegisterComponent,
     LoginComponent,
     LogoutComponent,
+    RegisterComponent,
     ForgotPasswordComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
+    HttpClientModule,
     RouterModule.forChild(AUTH_ROUTES)
   ]
 })

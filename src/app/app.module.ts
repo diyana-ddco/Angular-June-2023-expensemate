@@ -9,6 +9,8 @@ import { UserModule } from './user/user.module';
 import { APP_ROUTES } from './app.routes';
 import { CoreModule } from './core/core.module';
 import { ExpensesModule } from './features/expenses/expenses.module';
+import { errorInterceptorProvider } from './core/interceptors/error.interceptor';
+import { tokenInterceptorProvider } from './core/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,7 @@ import { ExpensesModule } from './features/expenses/expenses.module';
 
     RouterModule.forRoot(APP_ROUTES),
   ],
-  providers: [],
+  providers: [tokenInterceptorProvider, errorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

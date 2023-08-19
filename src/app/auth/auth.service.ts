@@ -1,24 +1,42 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, map, switchMap, tap } from 'rxjs';
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription, from, map, switchMap, tap } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 
 import { environment } from '../../environments/environment';
 import { ConfirmSignUpParameters } from './model/ConfirmSignUpParameters.model';
 import { SignUpParameters } from './model/SignUpParameters.model';
 import { LoginParameters } from './model/LoginParameters.model';
+import { HttpClient } from '@angular/common/http';
+import { ACCESS_TOKEN } from '../core/constants/settings';
+import { Router } from '@angular/router';
+import { AUTH_ROUTER_TOKENS } from './auth.routes';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
 
-  private authenticationSubject$: BehaviorSubject<boolean>;
+  private readonly router = inject(Router);
 
-  constructor() {
+  private authSubject$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  auth$: Observable<boolean> = this.authSubject$$.asObservable();
+
+  private auth: boolean = false;
+  private subscription: Subscription;
+
+  constructor(private http: HttpClient) {
     Amplify.configure({
       Auth: environment.cognito,
     });
-    this.authenticationSubject$ = new BehaviorSubject<boolean>(false);
+
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+      this.authSubject$$.next(true);
+    }
+
+    this.subscription = this.auth$.subscribe((auth) => {
+      this.auth = auth;
+    });
   }
 
   public register({ username, password, email }: SignUpParameters): Observable<any> {
@@ -31,52 +49,47 @@ export class AuthService {
     }));
   }
 
-  public confirmRegistration({ username, code }: ConfirmSignUpParameters): Promise<any> {
-    return Auth.confirmSignUp(username, code);
+  public confirmRegistration({ username, code }: ConfirmSignUpParameters): Observable<any> {
+    return from(Auth.confirmSignUp(username, code));
   }
 
-  public login({username, password}: LoginParameters): Observable<any> {
+  public login({ username, password }: LoginParameters): Observable<any> {
     return from(Auth.signIn(username, password))
-      .pipe(tap(() => this.authenticationSubject$.next(true)));
+      .pipe(
+        tap((user) => {
+          const access_token = user.getSignInUserSession().getAccessToken().getJwtToken();
+          localStorage.setItem(ACCESS_TOKEN, access_token);
+          this.authSubject$$.next(true);
+          console.log("Access token: " + access_token);
+        })
+      );
   }
 
-  public logout(): Promise<any> {
-    return Auth.signOut()
+  public logout(): void {
+    Auth.signOut()
       .then(() => {
-        this.authenticationSubject$.next(false);
+        localStorage.removeItem(ACCESS_TOKEN);
+        this.authSubject$$.next(false);
+      }).finally(() => {
+        this.router.navigate(["/authentication/login"]);
       });
   }
 
-  public isAuthenticated(): Promise<boolean> {
-    if (this.authenticationSubject$.value) {
-      return Promise.resolve(true);
-    }
-
-    return this.getUser()
-      .then((user: any) => {
-        if (user) {
-          return true;
-        }
-        return false;
-      }).catch(() => {
-        return false;
-      });
-  }
-
-  public getUser(): Promise<any> {
+  private getAuthUser(): Promise<any> {
     return Auth.currentUserInfo();
   }
 
-  // public updateUser(user: IUser): Promise<any> {
-  //   return Auth.currentUserPoolUser()
-  //   .then((cognitoUser: any) => {
-  //     return Auth.updateUserAttributes(cognitoUser, user);
-  //   });
-  // }
+  public getToken(): string | null {
+    return (!!localStorage.getItem(ACCESS_TOKEN)) ? (<string>localStorage.getItem(ACCESS_TOKEN)) : null;
+  }
 
+  public isAuthenticated(): boolean {
+    return this.auth;
+  }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  };
 }
-// function ISignupResult(value: ISignUpResult, index: number): boolean {
-//   throw new Error('Function not implemented.');
-// }
+
 
