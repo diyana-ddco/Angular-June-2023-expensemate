@@ -6,11 +6,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class ExpenseService {
- 
+  
   private readonly http = inject(HttpClient);
   private readonly expensesUrl: string = `${apiUrl}/expenses`;
   
   private dataStore: { expenses: Expense[] } = { expenses: [] };
+  
   private readonly expenses$$ = new BehaviorSubject<Expense[]>([]);
   readonly expenses$: Observable<Expense[]> = this.expenses$$.asObservable();
 
@@ -28,6 +29,10 @@ export class ExpenseService {
 
   public findById(id: number): Observable<Expense> {
     return this.http.get<Expense>(`${this.expensesUrl}/${id}`);
+  }
+
+  public createExpense(expense: Expense): Observable<Expense> {
+    return this.http.post<Expense>(`${this.expensesUrl}`, expense);
   }
 
 }

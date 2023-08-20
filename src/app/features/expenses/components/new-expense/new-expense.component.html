@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Add new expense</h2>
+
+<mat-dialog-content>
+    <div class="example-container">
+        <mat-form-field appearance="fill">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="expense.expenseDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Amount</mat-label>
+            <input matInput [(ngModel)]="expense.amount" required>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="expense.category">
+                <mat-select-trigger>
+                    {{expense.category?.name}}
+                </mat-select-trigger>
+                <mat-option *ngFor="let category of categories" [value]="category">
+                    {{category.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+    </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button color="primary" (click)="createExpense()">
+        <mat-icon>save</mat-icon> Save
+    </button>
+    <button mat-button color="primary" (click)="cancel()">
+        <mat-icon>cancel</mat-icon> Cancel
+    </button>
+</mat-dialog-actions>

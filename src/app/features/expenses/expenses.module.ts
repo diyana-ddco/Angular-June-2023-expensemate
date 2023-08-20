@@ -9,12 +9,14 @@ import { SupplierService } from './services/supplier.service';
 import { ExpenseDetailComponent } from './components/expense-detail/expense-detail.component';
 import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NewExpenseComponent } from './components/new-expense/new-expense.component';
 
 
 @NgModule({
   declarations: [
     ExpensesListComponent,
-    ExpenseDetailComponent
+    ExpenseDetailComponent,
+    NewExpenseComponent
   ],
   imports: [
     CommonModule,

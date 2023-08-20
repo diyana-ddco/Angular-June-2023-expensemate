@@ -26,8 +26,7 @@ export class LoginComponent {
 
   login(): void {
     this.authService.login(this.loginForm.value).subscribe({
-      next: (result) => {
-        console.log(result);
+      next: () => {
         this.router.navigate(['/expenses']);
       },
       error: (err) => {
