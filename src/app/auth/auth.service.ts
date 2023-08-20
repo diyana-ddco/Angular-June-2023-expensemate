@@ -60,7 +60,6 @@ export class AuthService implements OnDestroy {
           const access_token = user.getSignInUserSession().getAccessToken().getJwtToken();
           localStorage.setItem(ACCESS_TOKEN, access_token);
           this.authSubject$$.next(true);
-          console.log("Access token: " + access_token);
         })
       );
   }
@@ -75,8 +74,8 @@ export class AuthService implements OnDestroy {
       });
   }
 
-  private getAuthUser(): Promise<any> {
-    return Auth.currentUserInfo();
+  public getAuthUser(): Observable<any> {
+    return from(Auth.currentUserInfo());
   }
 
   public getToken(): string | null {

@@ -28,6 +28,8 @@ export class NewExpenseComponent implements OnInit {
   createExpense() {
     console.log(this.expense);
     this.expenseService.createExpense(this.expense).subscribe(expense => {
+      console.log(expense);
+      this.expenseService.loadAll();
       this.dialogRef.close(expense);
     });
     

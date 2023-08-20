@@ -4,6 +4,8 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 
 import { AuthService } from '../auth.service';
 import { CustomValidators } from 'src/app/core/validators/custom.validators';
+import { UserService } from 'src/app/user/user.service';
+import { catchError, of, switchMap } from 'rxjs';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { CustomValidators } from 'src/app/core/validators/custom.validators';
 export class RegisterComponent {
   
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router); 
   private fb = inject(FormBuilder);
 
@@ -89,8 +92,22 @@ export class RegisterComponent {
 
   public confirmRegistration(): void {
     this.loadingCodeConfirm = true;
+    // this.authService.confirmRegistration(this.registerForm.value).pipe(
+    //   switchMap(() => this.authService.login(this.registerForm.value)),
+    //   switchMap(() => this.userService.createUser(this.registerForm.value)),
+    //   catchError((err) => {
+    //     this.loadingCodeConfirm = false;
+    //     this.registerError = err.message;
+    //     return of(null); // Emit a value to continue the observable chain
+    //   })
+    // ).subscribe(() => {
+    //   this.router.navigate(['/authentication/login']);
+    // });
+    
     this.authService.confirmRegistration(this.registerForm.value).subscribe({
-      next: () => this.router.navigate(['/authentication/login']),
+      next: () => {
+        this.router.navigate(['/authentication/login']);
+      },
       error: (err) => {
         this.loadingCodeConfirm = false;
         this.registerError = err.message;

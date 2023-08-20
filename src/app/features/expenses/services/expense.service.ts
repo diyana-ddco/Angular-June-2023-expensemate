@@ -18,6 +18,7 @@ export class ExpenseService {
   public loadAll() {
     return this.http.get<Expense[]>(this.expensesUrl).subscribe({
       next: (data) => {
+        console.log(data);
         this.dataStore.expenses = data;
         this.expenses$$.next([...this.dataStore.expenses]);
       },
@@ -33,6 +34,12 @@ export class ExpenseService {
 
   public createExpense(expense: Expense): Observable<Expense> {
     return this.http.post<Expense>(`${this.expensesUrl}`, expense);
+  }
+
+  test() {
+    this.http.get<void>(`${apiUrl}/users`).subscribe(result => {
+
+    });
   }
 
 }

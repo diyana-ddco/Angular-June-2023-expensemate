@@ -20,7 +20,7 @@ export class ExpensesListComponent implements OnInit, OnDestroy {
 
   expenses$: Observable<Expense[]> | undefined;
 
-  displayedColumns: string[] = ['expenseDate', 'amount', 'supplier.name', 'category.name'];
+  displayedColumns: string[] = ['expenseDate', 'amount', 'supplier', 'category'];
   dataSource: MatTableDataSource<Expense> = new MatTableDataSource<Expense>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator | null;
@@ -58,6 +58,10 @@ export class ExpensesListComponent implements OnInit, OnDestroy {
           });
       }
     })
+  }
+
+  test() {
+    this.expenseService.test();
   }
 
   openSnackBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar> {

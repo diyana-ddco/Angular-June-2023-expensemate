@@ -4,13 +4,19 @@
 <div *ngIf="!loading">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>{{ expense?.expenseDate }}</mat-card-title>
+            <mat-card-title>Expense</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             <mat-tab-group>
                 <mat-tab label="Expense">
                     <p>
-                        TODO
+                        {{ expense?.expenseDate  | date: 'yyyy-MM-dd' }}
+                    </p>
+                    <p>
+                        {{ expense?.amount }}
+                    </p>
+                    <p>
+                        {{ expense?.notes }}
                     </p>
                 </mat-tab>
                 <mat-tab label="Attachemnt">
